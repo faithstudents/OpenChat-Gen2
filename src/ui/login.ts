@@ -26,7 +26,7 @@ async function loginPageLogin() {
 
         try {
             await login(email, password);
-            window.location.href = '/';
+            window.location.href = '/OpenChat-Gen2/';
         } catch {
             l_err.style.display = 'block';
         };

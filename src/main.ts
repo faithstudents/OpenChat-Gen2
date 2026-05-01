@@ -39,7 +39,7 @@ async function setup() {
     // Login and get the current users ID
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
-        window.location.href = '/login.html';
+        window.location.href = '/OpenChat-Gen2/login.html';
     }
 
     const { data: { user } } = await supabase.auth.getUser();
