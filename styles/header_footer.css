@@ -1,0 +1,35 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 30px;
+    width: 100%;
+
+    background-color: var(--bg-secondary);
+    padding: 12px;
+}
+
+.header button {
+    width: 75px;
+    height: 25px;
+}
+
+.header #__logout_btn {
+    background-color: var(--btn-danger);
+}
+.header #__logout_btn:hover {
+    background-color: var(--btn-danger-hover);
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+    width: 100%;
+    padding: 12px;
+
+    background-color: var(--bg-secondary);
+    color: var(--text-muted);
+    font-size: 12px;
+}
