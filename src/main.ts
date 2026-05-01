@@ -12,6 +12,8 @@ import './styles/master.css'
 import './styles/header_footer.css'
 import './styles/sidebar.css'
 import './styles/messages.css'
+import './styles/profile_tab.css'
+import { setupProfileModal, setupProfileTab } from "./ui/profile_tab";
 
 const messages_el = document.getElementById('__messages')!;
 const chats_el = document.getElementById('__chats')!;
@@ -26,7 +28,7 @@ const welcome_msg = document.getElementById('__welcome_msg')!;
 let currentChatId: string;
 let currentSubscription: any = null;
 let lastMessage: Message | null = null;
-let users: any;
+export let users: any;
 let hasMoreMessages = true;
 let isLoadingMore = false;
 
@@ -50,6 +52,10 @@ async function setup() {
     users = await getAllUsers();
     const currentUser = await users.get(user.id);
     welcome_msg.innerHTML = `<h4>Welcome to OpenChat ${currentUser.display_name}!</h4>`
+
+    // Setup the profile tab & modal
+    setupProfileTab(users.get(user.id));
+    setupProfileModal(users.get(user.id));
 
     if (lastChatId) {
         // Simulate clicking the chat and load all the messages

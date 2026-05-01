@@ -45,6 +45,28 @@
                 <!-- This is the sidebar that holds all the chat-specific data such as chat info, and channels -->
             </div>
 
+            <div class="profile_tab">
+                <img src="/images/typescript.svg" alt="" id="__profile_tab_pfp">
+                <div id="profile_data">
+                    <h4 id="__profile_tab_display_name">[loading...]</h4>
+                    <p id="__profile_tab_status">[loading...]</p>
+                </div>
+            </div>
+
+            <!-- The profile modal which appears above the profile tab when the profile_data div is clicked -->
+            <div id="profile_modal">
+                <div class="pmodal_top">
+                    <img src="/images/typescript.svg" alt="" id="__profile_modal_pfp">
+                    <div class="pmodal_top_data">
+                        <h3 id="__profile_modal_display_name">[loading...]</h3>
+                        <p id="__profile_modal_status">[loading...]</p>
+                    </div>
+                </div>
+
+                <p id="__profile_modal_description">No description yet.</p>
+            </div>
+
+
             <div id="__messages_container">
                 <ul id="__messages"></ul>
 
