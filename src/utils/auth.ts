@@ -19,5 +19,5 @@ export async function logout() {
         throw new Error("Error: Failed to sign out!" + error.message);
     }
 
-    window.location.href = '/login.html';
+    window.location.href = '/OpenChat-Gen2/login.html';
 }
