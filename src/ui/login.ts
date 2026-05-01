@@ -1,5 +1,6 @@
 import { login } from "../utils/auth";
 import '../styles/auth/login.css'
+import { base_url } from "../utils/supabase";
 
 const email_input = document.getElementById('__email_input') as HTMLInputElement;
 const password_input = document.getElementById('__password_input') as HTMLInputElement;
@@ -26,7 +27,7 @@ async function loginPageLogin() {
 
         try {
             await login(email, password);
-            window.location.href = '/OpenChat-Gen2/';
+            window.location.href = `${base_url}`;
         } catch {
             l_err.style.display = 'block';
         };

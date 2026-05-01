@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+import { base_url, supabase } from "./supabase";
 
 export async function login(username: string, password: string) {
     const { error } = await supabase.auth.signInWithPassword({
@@ -19,5 +19,5 @@ export async function logout() {
         throw new Error("Error: Failed to sign out!" + error.message);
     }
 
-    window.location.href = '/OpenChat-Gen2/login.html';
+    window.location.href = `${base_url}/login.html`;
 }

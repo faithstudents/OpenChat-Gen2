@@ -3,7 +3,7 @@ import { createMessageElement, getMessages, isGroupedWith, sendMessage, subscrib
 import { getAllUsers } from "./services/users";
 import type { Message } from "./types/message";
 import { logout } from "./utils/auth";
-import { supabase } from "./utils/supabase";
+import { base_url, supabase } from "./utils/supabase";
 
 /*
     CSS
@@ -39,11 +39,11 @@ async function setup() {
     // Login and get the current users ID
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
-        window.location.href = '/OpenChat-Gen2/login.html';
+        window.location.href = `${base_url}/login.html`;
     }
 
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { window.location.href = './login.html'; return; }
+    if (!user) { window.location.href = `${base_url}/login.html`; return; }
 
     // Get the last opened chat from local storage and fetch all the users
     const lastChatId = localStorage.getItem('oc_last_chat');
