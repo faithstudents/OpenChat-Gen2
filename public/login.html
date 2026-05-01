@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenChat | Login</title>
+
+    <link rel="stylesheet" href="styles/auth/login.css">
+</head>
+<body>
+    <div class="header">
+        <h4>Welcome back to OpenChat!</h4>
+
+        <button id="__rules_btn">Rules</button>
+    </div>
+
+    <div id="__app">
+
+        <div class="app">
+
+            <div class="top">
+                <h2>Login</h2>
+                <p>Please login with your username and password.</p>
+            </div>
+
+            <div class="inputs">
+                <input type="email" id="__email_input" placeholder="Enter your email">
+                <p id="__email_error" class="error">This field is required.</p>
+
+                <input type="password" id="__password_input" placeholder="Enter your password">
+                <p id="__password_error" class="error">This field is required.</p>
+
+                <button id="__login">Login</button>
+
+                <!-- Login Error Message -->
+                <p id="__login_error" class="error">Failed to login! Please check your username and password.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>&copy; Copyright 2026 OpenChat Gen 2. All rights reserved.</p>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="/src/ui/login.ts"></script>
+</body>
+</html>

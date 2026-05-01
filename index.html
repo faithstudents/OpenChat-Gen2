@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>OpenChat Gen2 | 4.1</title>
+
+    <!-- CSS Style links -->
+    <link rel="stylesheet" href="public/styles/master.css">
+    <link rel="stylesheet" href="public/styles/header_footer.css">
+    <link rel="stylesheet" href="public/styles/sidebar.css">
+    <link rel="stylesheet" href="public/styles/messages.css">
+
+    <!-- Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <h4 id="__welcome_msg">Welcome to OpenChat [loading name...]</h4>
+
+            <div>
+                <button id="__rules_btn">Rules</button>
+                <button id="__logout_btn"><i class="fa-solid fa-right-from-bracket"></i></button>
+            </div>
+        </div>
+
+
+        <!-- This is where the sidebars, main chat area, and controls and modals will all live -->
+        <div id="__app_content">
+            <div class="sidebar">
+                <!-- This is the sidear that holds all the chats -->
+                <div class="dms_and_create">
+                    <button id="__create_chat_btn"><i class="fa-solid fa-plus"></i></button>
+                    <button id="__dms_btn">DMs</button>
+                </div>
+
+                <!-- This is where our chats will live -->
+                <!-- The class name is 'chat' -->
+                <ul id="__chats"></ul>
+            </div>
+            <div class="sidebar1">
+                <!-- This is the sidebar that holds all the chat-specific data such as chat info, and channels -->
+            </div>
+
+            <div id="__messages_container">
+                <ul id="__messages"></ul>
+
+                <div id="__scroll_btn">
+                    <i class="fa-solid fa-arrow-down"></i>
+                </div>
+
+                <!-- Input bar - this is where users will actually type messages -->
+                <div id="__input_bar">
+                    <input type="text" id="__message_input" placeholder="Type a message...">
+                    <button id="__send_btn"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="footer">
+            <p>&copy; Copyright 2026 OpenChat Gen 2. All rights reserved.</p>
+            <p>Designed for students of Faith Christian School of Distance Education (FCSDE). Not for external use unless permitted by admin.</p>
+        </div>
+    </div>
+
+    <!-- The main application entry point. Other independent scripts will go here too later on -->
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
