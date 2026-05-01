@@ -13,6 +13,8 @@ const scroll_btn = document.getElementById('__scroll_btn');
 
 const logout_btn = document.getElementById('__logout_btn');
 
+const welcome_msg = document.getElementById('__welcome_msg');
+
 let currentChatId: string;
 let currentSubscription: any = null;
 let lastMessage: Message | null = null;
@@ -37,6 +39,8 @@ async function setup() {
     // Get the last opened chat from local storage and fetch all the users
     const lastChatId = localStorage.getItem('oc_last_chat');
     users = await getAllUsers();
+    const currentUser = await users.get(user.id);
+    welcome_msg.innerHTML = `<h4>Welcome to OpenChat ${currentUser.display_name}!</h4>`
 
     if (lastChatId) {
         // Simulate clicking the chat and load all the messages
