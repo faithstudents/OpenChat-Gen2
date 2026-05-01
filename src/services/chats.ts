@@ -16,7 +16,7 @@ export async function getUserChats(userId: string) {
     return (data?.map(row => row.Chats) as unknown as Chat[]) ?? []
 }
 
-export function createChatElement(name: string, icon: string) {
+export function createChatElement(name: string, icon: string | null) {
     const el = document.createElement('button');
     el.dataset.tooltip = name;
 

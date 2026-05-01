@@ -85,7 +85,7 @@ export function isGroupedWith(current: Message, previous: Message | undefined): 
     return diff_minutes <= 1;
 }
 
-export function createMessageElement(send_name: string, content: string, pfp: string | null, timestamp: string, isGrouped: boolean = false) {
+export function createMessageElement(send_name: string, content: string | null, pfp: string | null, timestamp: string, isGrouped: boolean = false) {
     const el = document.createElement('li');
     el.classList.add('message');
     el.dataset.timestamp = timestamp;
@@ -111,7 +111,7 @@ export function createMessageElement(send_name: string, content: string, pfp: st
         user_el.classList.add('user_details');
 
         name_el.innerText = send_name;
-        content_el.innerText = content;
+        content_el.innerText = content ?? '';
         timestamp_el.innerText = date;
 
         user_el.appendChild(name_el);
@@ -119,7 +119,7 @@ export function createMessageElement(send_name: string, content: string, pfp: st
         el.appendChild(pfp_el);
     } else {
         // Just append the message content with some padding
-        content_el.innerText = content;
+        content_el.innerText = content ?? '';
         content_el.style.paddingLeft = '50px';
     }
 

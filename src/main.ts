@@ -5,15 +5,23 @@ import type { Message } from "./types/message";
 import { logout } from "./utils/auth";
 import { supabase } from "./utils/supabase";
 
-const messages_el = document.getElementById('__messages');
-const chats_el = document.getElementById('__chats');
+/*
+    CSS
+*/
+import './styles/master.css'
+import './styles/header_footer.css'
+import './styles/sidebar.css'
+import './styles/messages.css'
+
+const messages_el = document.getElementById('__messages')!;
+const chats_el = document.getElementById('__chats')!;
 const input_el = document.getElementById('__message_input') as HTMLInputElement;
-const send_btn_el = document.getElementById('__send_btn');
-const scroll_btn = document.getElementById('__scroll_btn');
+const send_btn_el = document.getElementById('__send_btn')!;
+const scroll_btn = document.getElementById('__scroll_btn')!;
 
-const logout_btn = document.getElementById('__logout_btn');
+const logout_btn = document.getElementById('__logout_btn')!;
 
-const welcome_msg = document.getElementById('__welcome_msg');
+const welcome_msg = document.getElementById('__welcome_msg')!;
 
 let currentChatId: string;
 let currentSubscription: any = null;
@@ -35,6 +43,7 @@ async function setup() {
     }
 
     const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { window.location.href = './login.html'; return; }
 
     // Get the last opened chat from local storage and fetch all the users
     const lastChatId = localStorage.getItem('oc_last_chat');
@@ -53,7 +62,7 @@ async function setup() {
             const grouped = isGroupedWith(msg, prev ?? undefined);
 
             const sender = users.get(msg.sender_id);
-            const msg_el = createMessageElement(sender?.display_name ?? 'Unknown', msg.content, sender?.pfp_url ?? null, msg.created_at, grouped);
+            const msg_el = createMessageElement(sender?.display_name ?? 'Unknown', msg.content ?? '', sender?.pfp_url ?? null, msg.created_at, grouped);
             msg_el.dataset.senderId = msg.sender_id;
             messages_el.appendChild(msg_el);
         });
@@ -62,10 +71,10 @@ async function setup() {
 
         currentSubscription = subscribeToMessages(lastChatId, async (msg) => {
             const atBottom = isAtBottom();
-            const grouped = isGroupedWith(msg, lastMessage);
+            const grouped = isGroupedWith(msg, lastMessage ?? undefined);
 
             const sender = await users.get(msg.sender_id);
-            const msg_el = createMessageElement(sender.display_name ?? "Undefined", msg.content, sender.pfp_url ?? null, msg.created_at, grouped);
+            const msg_el = createMessageElement(sender.display_name ?? "Undefined", msg.content ?? '', sender.pfp_url ?? null, msg.created_at, grouped);
             msg_el.dataset.senderId = msg.sender_id;
             messages_el.appendChild(msg_el);
             lastMessage = msg;
@@ -81,7 +90,7 @@ async function setup() {
 
     let chats = await getUserChats(user.id);
     chats.forEach(chat => {
-        const el = createChatElement(chat.name, chat.icon);
+        const el = createChatElement(chat.name ?? 'Undefined', chat.icon);
         chats_el.appendChild(el);
 
         // Click listener
@@ -107,7 +116,7 @@ async function setup() {
                 const grouped = isGroupedWith(msg, prev ?? undefined);
                 
                 const sender = users.get(msg.sender_id);
-                const msg_el = createMessageElement(sender?.display_name ?? 'Unknown', msg.content, sender?.pfp_url ?? null, msg.created_at, grouped);
+                const msg_el = createMessageElement(sender?.display_name ?? 'Unknown', msg.content ?? '', sender?.pfp_url ?? null, msg.created_at, grouped);
                 msg_el.dataset.senderId = msg.sender_id;
                 messages_el.appendChild(msg_el);
             });
@@ -116,7 +125,7 @@ async function setup() {
 
             // Subscribe to new messages
             currentSubscription = subscribeToMessages(currentChatId, async (msg) => {
-                const grouped = isGroupedWith(msg, lastMessage);
+                const grouped = isGroupedWith(msg, lastMessage ?? undefined);
 
                 const sender = await users.get(msg.sender_id);
                 const msg_el = createMessageElement(sender.display_name ?? "Undefined", msg.content, sender.pfp_url ?? null, msg.created_at, grouped);

@@ -1,13 +1,14 @@
 import { login } from "../utils/auth";
+import '../styles/auth/login.css'
 
 const email_input = document.getElementById('__email_input') as HTMLInputElement;
 const password_input = document.getElementById('__password_input') as HTMLInputElement;
-const login_btn = document.getElementById('__login');
+const login_btn = document.getElementById('__login')!;
 
 // Errors
-const e_err = document.getElementById('__email_error');
-const p_err = document.getElementById('__password_error');
-const l_err = document.getElementById('__login_error');
+const e_err = document.getElementById('__email_error')!;
+const p_err = document.getElementById('__password_error')!;
+const l_err = document.getElementById('__login_error')!;
 
 async function loginPageLogin() {
     login_btn.addEventListener('click', async () => {
