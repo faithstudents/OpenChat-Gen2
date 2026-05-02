@@ -1,5 +1,6 @@
 import { supabase } from "../utils/supabase";
 import type { Message } from "../types/message";
+import { store } from "../store/store";
 
 export async function getMessages(chatId: string, before?: string): Promise<Message[]> {
     let query = supabase
@@ -33,6 +34,20 @@ export async function sendMessage(chatId: string, senderId: string, content: str
     }
 }
 
+export async function renderMessages(messages: Message[], messages_el: HTMLElement) {
+    messages.forEach((msg, index) => {
+        const prev = messages[index - 1] ?? null;
+        const grouped = isGroupedWith(msg, prev ?? undefined);
+    
+        const sender = store.users.get(msg.sender_id);
+        const msg_el = createMessageElement(sender?.display_name ?? 'Unknown', msg.content ?? '', sender?.pfp_url ?? null, msg.created_at, grouped);
+        msg_el.dataset.senderId = msg.sender_id;
+        messages_el.appendChild(msg_el);
+    });
+    store.lastMessage = messages[messages.length - 1] ?? null;
+    messages_el.scrollTop = messages_el.scrollHeight;
+}
+
 export function subscribeToMessages(chatId: string, onMessage: (msg: Message) => void) {
     // Subscribe to a specific chats realtime channel
     const channel = supabase
@@ -49,6 +64,47 @@ export function subscribeToMessages(chatId: string, onMessage: (msg: Message) =>
 
     // Return it so we can unsubscribe later
     return channel;
+}
+
+export async function loadMoreMessages(messages_el: HTMLElement) {
+    if (!store.hasMoreMessages) return;
+
+    // Get timestamp of oldest rendered message
+    const oldest = messages_el.querySelector('.message') as HTMLElement;
+    const oldestTimestamp = oldest?.dataset.timestamp;
+    if (!oldestTimestamp) return;
+
+    const prevHeight = messages_el.scrollHeight;
+
+    const more = await getMessages(store.currentChatId, oldestTimestamp);
+    if (more.length === 0) {
+        store.hasMoreMessages = false;  // Stop future fetches
+        return;
+    }
+
+    // Prepend to top
+    const elements: HTMLElement[] = [];
+    store.lastMessage = null;
+    more.reverse().forEach((msg, index) => {
+        const prev = more[index - 1] ?? null;  // previous in the batch
+        const grouped = isGroupedWith(msg, prev);
+        const msg_el = createMessageElement(
+            store.users.get(msg.sender_id)?.display_name ?? 'Unknown',
+            msg.content,
+            store.users.get(msg.sender_id)?.pfp_url ?? null,
+            msg.created_at,
+            grouped
+        );
+
+        msg_el.dataset.senderId = msg.sender_id;
+        msg_el.dataset.timestamp = msg.created_at;
+
+        elements.push(msg_el);
+    });
+    elements.forEach(el => messages_el.prepend(el));
+
+    // Keep scroll position stable — don't jump to top
+    messages_el.scrollTop = messages_el.scrollHeight - prevHeight;
 }
 
 function formatTimestamp(created_at: string): string {
