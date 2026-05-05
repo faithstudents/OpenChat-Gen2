@@ -13,7 +13,8 @@ export async function sendHandler(user: any) {
         }
 
         if (!content) return;               // Don't send an empty message or whitespace
-        await sendMessage(store.currentChatId, user.id, content);
+        await sendMessage(store.currentChatId, user.id, content, store.replyingTo);
+        store.replyingTo = null;
         input_el.value = '';
     });
 

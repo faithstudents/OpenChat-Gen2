@@ -20,7 +20,7 @@ export async function on_scroll(messages_el: HTMLElement) {
 
 export async function scrollHandler(messages_el: HTMLElement) {
     messages_el.addEventListener('scroll', async () => {
-        await scrollHandler(messages_el);
+        await on_scroll(messages_el);
     });
 
     // Scroll to bottom button. Scrolls to bottom and hides itself

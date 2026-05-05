@@ -51,6 +51,7 @@ async function setup() {
     store.users = await getAllUsers();
     const currentUser = await store.users.get(user.id);
     welcome_msg.innerHTML = `<h4>Welcome to OpenChat ${currentUser.display_name}!</h4>`
+    store.replyingTo = null;
 
     // Setup the profile tab & modal
     setupProfileTab(store.users.get(user.id));
@@ -70,8 +71,8 @@ async function setup() {
     });
 
     // Run the scroll handler & send message handler
-    await scrollHandler(messages_el);
-    await sendHandler(user);
+    scrollHandler(messages_el);
+    sendHandler(user);
 
     // Logout button handling
     logout_btn.addEventListener('click', async () => {

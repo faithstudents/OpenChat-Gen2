@@ -23,7 +23,7 @@ export function loadChat(chatId: string) {
         const atBottom = isAtBottom();
         const grouped = isGroupedWith(msg, store.lastMessage ?? undefined);
         const sender = store.users.get(msg.sender_id);
-        const msg_el = createMessageElement(sender?.display_name ?? 'Unknown', msg.content ?? '', sender?.pfp_url ?? null, msg.created_at, grouped);
+        const msg_el = createMessageElement(sender?.display_name ?? 'Unknown', msg.content ?? '', sender?.pfp_url ?? null, msg.created_at, grouped, msg);
         messages_el.appendChild(msg_el);
         store.lastMessage = msg;
 
