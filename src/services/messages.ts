@@ -150,6 +150,27 @@ function formatTimestamp(created_at: string): string {
 
 async function handleReply(msg: Message) {
     store.replyingTo = msg.id;
+    
+    // Show the preview bar above the input
+    const input_bar = document.getElementById('__input_bar')!;
+    
+    // Remove any existing preview first
+    const existing = document.getElementById('__reply_bar');
+    if (existing) existing.remove();
+    
+    const reply_bar = createReplyPreview(msg.id);
+    reply_bar.id = '__reply_bar';
+    
+    // Add cancel button
+    const cancel = document.createElement('button');
+    cancel.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+    cancel.onclick = () => {
+        store.replyingTo = null;
+        reply_bar.remove();
+    };
+    reply_bar.appendChild(cancel);
+    
+    input_bar.insertAdjacentElement('beforebegin', reply_bar);
 }
 
 export function createMessageControls(message: Message) {
@@ -175,6 +196,20 @@ export function createMessageControls(message: Message) {
         el.appendChild(btn);
     });
 
+    return el;
+}
+
+export function createReplyPreview(id: string) {
+    const el = document.createElement('div');
+    el.classList.add('reply_preview');
+
+    const content = document.createElement('p');
+    content.classList.add('reply_preview_content');
+
+    const msg = store.messageCache.get(id);
+    content.innerText = msg?.content ?? "Message not found.";
+
+    el.appendChild(content);
     return el;
 }
 
@@ -214,19 +249,6 @@ export function createMessageElement(send_name: string, content: string | null, 
     const message_body = document.createElement('div');
     message_body.classList.add('message_body');
 
-    if (msg.reply_to) {
-        const reply_msg = store.messageCache.get(msg.reply_to);
-        
-        const preview = document.createElement('div');
-        preview.classList.add('reply_preview');
-        
-        const preview_t = document.createElement('p');
-        preview_t.innerText = reply_msg?.content ?? 'Message not found';
-        preview.appendChild(preview_t);
-        
-        message_body.appendChild(preview);  // ← append to message_body
-    }
-
     if (!isGrouped) {
         const user_details = document.createElement('div');
         user_details.classList.add('user_details');
@@ -242,6 +264,19 @@ export function createMessageElement(send_name: string, content: string | null, 
         user_details.appendChild(name_el);
         user_details.appendChild(timestamp_el);
         message_body.appendChild(user_details);
+    }
+
+    if (msg.reply_to) {
+        const reply_msg = store.messageCache.get(msg.reply_to);
+        
+        const preview = document.createElement('div');
+        preview.classList.add('reply_preview');
+        
+        const preview_t = document.createElement('p');
+        preview_t.innerText = reply_msg?.content ?? 'Message not found';
+        preview.appendChild(preview_t);
+        
+        message_body.appendChild(preview);
     }
 
     const content_el = document.createElement('p');
