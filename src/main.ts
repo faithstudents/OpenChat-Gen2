@@ -1,4 +1,4 @@
-import { createChatElement, getUserChats } from "./services/chats";
+import { createChatElement, createDMChatElement, getUserChats, getUserDMs } from "./services/chats";
 // import { createMessageElement, getMessages, isGroupedWith, renderMessages, subscribeToMessages } from "./services/messages";
 import { getAllUsers } from "./services/users";
 import { logout } from "./utils/auth";
@@ -14,6 +14,7 @@ import './styles/header_footer.css'
 import './styles/sidebar.css'
 import './styles/messages.css'
 import './styles/profile_tab.css'
+import './styles/chats.css'
 import { scrollHandler } from "./services/handlers/scrollHandler";
 import { sendHandler } from "./services/handlers/sendHandler";
 import { loadChat } from "./services/handlers/chatHandler";
@@ -26,6 +27,8 @@ export const chats_el = document.getElementById('__chats')!;
 export const input_el = document.getElementById('__message_input') as HTMLInputElement;
 export const send_btn_el = document.getElementById('__send_btn')!;
 export const scroll_btn = document.getElementById('__scroll_btn')!;
+export const dms_btn = document.getElementById('__dms_btn')!;
+export const dms_el = document.getElementById('__dms')!;
 const logout_btn = document.getElementById('__logout_btn')!;
 const welcome_msg = document.getElementById('__welcome_msg')!;
 
@@ -67,7 +70,24 @@ async function setup() {
         chats_el.appendChild(el);
 
         // Click listener
-        el.addEventListener('click', async () => loadChat(chat.id));
+        el.addEventListener('click', async () => {
+            loadChat(chat.id);
+            dms_el.innerHTML = '';
+        });
+    });
+
+    let dms = await getUserDMs(user.id);
+    console.log('DMs: ', dms);
+    dms_btn.addEventListener('click', async () => {
+        dms_el.innerHTML = '';
+        dms.forEach(dm => {
+            const el = createDMChatElement(dm.name ?? "Unknown", dm.icon);
+            dms_el.appendChild(el);
+
+            el.addEventListener('click', async () => {
+                loadChat(dm.id);
+            });
+        });
     });
 
     // Run the scroll handler & send message handler

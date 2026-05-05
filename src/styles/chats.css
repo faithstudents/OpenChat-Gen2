@@ -1,0 +1,23 @@
+.dm {
+    width: 90%;
+    height: 50px;
+    display: flex;
+    margin: 8px;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--bg-primary);
+    padding: 4px 8px;
+}
+.dm:hover {
+    background-color: var(--bg-tertiary);
+}
+.dm .dm_right {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+.dm .dm_icon {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
