@@ -3,7 +3,7 @@
     left: 20px;
     top: 20px;
     width: 300px;
-    height: 300px;
+    min-height: 300px;
     background-color: var(--bg-primary);
     border-radius: 12px;
     z-index: 999;
@@ -42,4 +42,35 @@
     position: absolute;
     right: 4px;
     top: -4px;
+}
+
+#__create_chat_members {
+    height: 75px;
+    width: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+}
+
+#__create_chat_active_members {
+    height: 75px;
+    width: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+}
+
+.create_member {
+    width: 90%;
+    height: 30px;
+    display: flex;
+}
+.create_chat_pfp {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
 }
