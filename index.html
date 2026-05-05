@@ -37,6 +37,24 @@
                     <button id="__dms_btn">DMs</button>
                 </div>
 
+                <div id="__create_chat_modal">
+                    <button id="__create_modal_close">x</button>
+
+                    <h3>Create a New Chat!</h3>
+                    <input type="text" id="__create_chat_name" placeholder="Whats the name of the chat?">
+
+                    <div class="chat_type">
+                        <p>Is it a group or DM?</p>
+                        <select name="" id="__create_chat_type">
+                            <option value="none">None</option>
+                            <option value="group">Group Chat</option>
+                            <option value="direct">DM (Direct Message)</option>
+                        </select>
+                    </div>
+
+                    <button id="__create_chat_button">Create</button>
+                </div>
+
                 <!-- This is where our chats will live -->
                 <!-- The class name is 'chat' -->
                 <ul id="__chats"></ul>
@@ -80,10 +98,6 @@
                     <input type="text" id="__message_input" placeholder="Type a message...">
                     <button id="__send_btn"><i class="fa-solid fa-paper-plane"></i></button>
                 </div>
-            </div>
-
-            <div class="sidebar1">
-                <!-- This is the sidebar that holds all the chat-specific data such as chat info, and channels -->
             </div>
         </div>
 

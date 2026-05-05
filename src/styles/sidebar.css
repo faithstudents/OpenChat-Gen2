@@ -20,7 +20,8 @@
 }
 
 .sidebar1 {
-    width: 400px;
+    width: 325px;
     height: calc(100vh - var(--header-height) - var(--footer-height));
     background-color: var(--bg-secondary);
+    min-width: 275px;
 }

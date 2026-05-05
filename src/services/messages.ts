@@ -1,6 +1,7 @@
 import { supabase } from "../utils/supabase";
 import type { Message } from "../types/message";
 import { store } from "../store/store";
+import { linkify } from "../utils/linkify";
 
 export async function getMessages(chatId: string, before?: string): Promise<Message[]> {
     let query = supabase
@@ -281,7 +282,7 @@ export function createMessageElement(send_name: string, content: string | null, 
 
     const content_el = document.createElement('p');
     content_el.classList.add('content');
-    content_el.innerText = content ?? '';
+    content_el.innerHTML = linkify(content ?? "Undefined");
     message_body.appendChild(content_el);
 
     el.appendChild(pfp_container);

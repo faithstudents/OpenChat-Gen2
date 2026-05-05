@@ -15,9 +15,11 @@ import './styles/sidebar.css'
 import './styles/messages.css'
 import './styles/profile_tab.css'
 import './styles/chats.css'
+import './styles/create_chat.css'
 import { scrollHandler } from "./services/handlers/scrollHandler";
 import { sendHandler } from "./services/handlers/sendHandler";
 import { loadChat } from "./services/handlers/chatHandler";
+import { onChatButtonPressed } from "./services/create_chat";
 
 /*
     Elements
@@ -29,8 +31,17 @@ export const send_btn_el = document.getElementById('__send_btn')!;
 export const scroll_btn = document.getElementById('__scroll_btn')!;
 export const dms_btn = document.getElementById('__dms_btn')!;
 export const dms_el = document.getElementById('__dms')!;
+export const create_chat_modal = document.getElementById('__create_chat_modal')!;
+export const create_chat_btn = document.getElementById('__create_chat_btn')!;
+export const create_chat_button = document.getElementById('__create_chat_button')!;
 const logout_btn = document.getElementById('__logout_btn')!;
 const welcome_msg = document.getElementById('__welcome_msg')!;
+const close_modal_btn = document.getElementById('__create_modal_close')!;
+
+close_modal_btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    create_chat_modal.style.display = 'none';
+});
 
 export function isAtBottom(): boolean {
     const threshold = 50; // pixels from bottom, some wiggle room
@@ -87,6 +98,14 @@ async function setup() {
             el.addEventListener('click', async () => {
                 loadChat(dm.id);
             });
+        });
+    });
+
+    create_chat_btn.addEventListener('click', async () => {
+        create_chat_modal.style.display = 'flex';
+
+        create_chat_button.addEventListener('click', async () => {
+            await onChatButtonPressed();
         });
     });
 
