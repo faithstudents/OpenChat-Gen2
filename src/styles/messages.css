@@ -1,5 +1,5 @@
 #__messages_container {
-    width: 100%;
+    min-width: 0;
     height: calc(100vh - var(--header-height) - var(--footer-height) - 75px);
     justify-content: flex-end;
     flex-direction: column;
