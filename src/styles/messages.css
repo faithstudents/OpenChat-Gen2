@@ -5,6 +5,7 @@
     flex-direction: column;
     position: relative;
     display: flex;
+    flex: 1;
 }
 
 

@@ -47,6 +47,30 @@ export function isAtBottom(): boolean {
     return messages_el.scrollHeight - messages_el.scrollTop - messages_el.clientHeight < threshold;
 }
 
+export async function loadChats() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    // 1. Clear the chat list UI
+    chats_el.innerHTML = "";
+
+    // 2. Fetch updated chats
+    const chats = await getUserChats(user.id);
+
+    // 3. Re-render chat elements
+    chats.forEach(chat => {
+        const el = createChatElement(chat.name ?? "Undefined", chat.icon);
+        chats_el.appendChild(el);
+
+        el.addEventListener("click", async () => {
+            loadChat(chat.id);
+            dms_el.innerHTML = "";
+        });
+    });
+
+    console.log("Chats refreshed:", chats.length);
+}
+
 async function setup() {
     console.log('setup called');
 
@@ -100,14 +124,6 @@ async function setup() {
         });
     });
 
-    // create_chat_btn.addEventListener('click', async () => {
-    //     create_chat_modal.style.display = 'flex';
-
-    //     create_chat_button.addEventListener('click', async () => {
-    //         await onChatButtonPressed();
-    //     });
-    // });
-
     // Run the scroll handler & send message handler
     scrollHandler(messages_el);
     sendHandler(user);
@@ -127,7 +143,7 @@ async function setup() {
     });
 
     create_confirm_btn.addEventListener('click', async () => {
-        await onCreateConfirmed();
+        await onCreateConfirmed(user.id);
         create_modal.style.display = 'none';
     });
 }

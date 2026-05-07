@@ -59,18 +59,24 @@ async function addMemberToChat(id: string, chatId: string) {
 }
 
 // Called when modal opens - just renders the member picker
-export function populateMemberList() {
+export async function populateMemberList() {
     chat_members_select.innerHTML = '';
     active_members.innerHTML = '';
 
-    store.users.forEach((user: { display_name: any; pfp_url: any; }, id: string) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return; // user is null → bail safely
+
+    const currentUserId = user.id;
+
+    store.users.forEach((userObj: { display_name: any; pfp_url: any; }, id: string) => {
+        if (id === currentUserId) return; // skip creator
+
         const el = createMemberElement(
-            user.display_name ?? 'Unknown',
-            user.pfp_url ?? 'images/typescript.svg',
+            userObj.display_name ?? 'Unknown',
+            userObj.pfp_url ?? 'images/typescript.svg',
             id
         );
 
-        // Start in the available list
         moveToAvailable(el);
     });
 }
@@ -86,12 +92,13 @@ function moveToAvailable(el: HTMLElement) {
 }
 
 // Called when "Create" button is pressed
-export async function onCreateConfirmed() {
+export async function onCreateConfirmed(userId: string) {
     if (!chat_name_input.value) return;
     
     const newChatId = await createChat(chat_name_input.value, chat_type_select.value, null);
     
-    // Add creator
+    // Add creator automatically
+    await addMemberToChat(userId, newChatId);
     console.log("Creating chat...");
     
     // Add selected members
