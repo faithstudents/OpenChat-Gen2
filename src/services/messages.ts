@@ -2,6 +2,7 @@ import { supabase } from "../utils/supabase";
 import type { Message } from "../types/message";
 import { store } from "../store/store";
 import { linkify } from "../utils/linkify";
+import NotificationHandler from "./Notification";
 
 export async function getMessages(chatId: string, before?: string): Promise<Message[]> {
     let query = supabase
@@ -75,7 +76,14 @@ export function subscribeToMessages(chatId: string, onMessage: (msg: Message) =>
             table: 'Messages',
             filter: `chat_id=eq.${chatId}`
         }, (payload) => {
-            onMessage(payload.new as Message)
+            const msg = payload.new as Message;
+            const sender = store.users.get(msg.sender_id);
+
+            // Notify
+            NotificationHandler.SendNotification(`OpenChat - ${sender?.display_name ?? "Unknown"}`, msg.content ?? "");
+
+            // Continue as normal
+            onMessage(msg);
         })
         .subscribe()
 

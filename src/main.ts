@@ -20,6 +20,7 @@ import { scrollHandler } from "./services/handlers/scrollHandler";
 import { sendHandler } from "./services/handlers/sendHandler";
 import { loadChat } from "./services/handlers/chatHandler";
 import { onCreateConfirmed, populateMemberList } from "./services/create_chat";
+import NotificationHandler from "./services/Notification";
 
 /*
     Elements
@@ -93,6 +94,9 @@ async function setup() {
     // Setup the profile tab & modal
     setupProfileTab(store.users.get(user.id));
     setupProfileModal(store.users.get(user.id));
+
+    // Initialize the notifications
+    NotificationHandler.Init();
 
     if (lastChatId) {
         loadChat(lastChatId);
